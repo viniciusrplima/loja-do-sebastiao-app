@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text style={styles.title}>Aplicativo de Gerenciamento da Loja</Text>
     </View>
   );
 }
@@ -16,4 +16,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  title: {
+    fontSize: 24, 
+    fontWeight: 'bold', 
+    textAlign: 'center'
+  }
 });
