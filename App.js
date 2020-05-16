@@ -15,6 +15,7 @@ const { Navigator, Screen } = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      
       {/* Se precisar editar uma página em específico coloque ela como
       primeira opção na lista abaixo, ela vai aparecer no app como sendo a home */}
       <Navigator>
@@ -22,9 +23,15 @@ export default function App() {
           title: "Loja do Sebastião", 
           headerRight: () => (<Text>logout</Text>)
         }}/>
-        <Screen name="info" component={ ProductInfo } />
-        <Screen name="edit" component={ Edit } />
-        <Screen name="new" component={ NewProduct } />
+        <Screen name="info" component={ ProductInfo } options={{
+          title: "Informações do Produto"
+        }}/>
+        <Screen name="edit" component={ Edit } options={{
+          title: "Editar Produto"
+        }}/>
+        <Screen name="new" component={ NewProduct } options={{
+          title: "Novo Produto"
+        }}/>
       </Navigator>
     </NavigationContainer>
   );
