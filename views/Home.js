@@ -1,10 +1,7 @@
 import React from 'react';
 import { BottomNavigation} from 'react-native-paper';
 
-import Tvs from './Tvs';
-import Eletros from './Eletros';
-import Videogames from './Videogames';
-import Celulares from './Celulares';
+import CardList from './CardList';
 
 
 // Navegação secundária do aplicativo.
@@ -26,10 +23,10 @@ export default class Home extends React.Component {
   _handleIndexChange = index => this.setState({ index });
 
   _renderScene = BottomNavigation.SceneMap({
-    tvs: () => (<Tvs navigation={this.props.navigation} route={this.props.route}/>),
-    eletros: () => (<Eletros navigation={this.props.navigation} route={this.props.route}/>),
-    videogames: () => (<Videogames navigation={this.props.navigation} route={this.props.route}/>),
-    celulares: () => (<Celulares navigation={this.props.navigation} route={this.props.route}/>),
+    tvs: () => (<CardList category='tv' navigation={this.props.navigation} route={this.props.route}/>),
+    eletros: () => (<CardList category={'eletrodomestico'} navigation={this.props.navigation} route={this.props.route}/>),
+    videogames: () => (<CardList category={'videogame'} navigation={this.props.navigation} route={this.props.route}/>),
+    celulares: () => (<CardList category={'celular'} navigation={this.props.navigation} route={this.props.route}/>),
   });
 
   componentDidCatch(error, errorInfo) {

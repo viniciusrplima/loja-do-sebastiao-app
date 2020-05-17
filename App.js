@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Home from './views/Home';
 import ProductInfo from './views/ProductInfo';
@@ -21,7 +22,11 @@ export default function App() {
       <Navigator>
         <Screen name="home" component={ Home } options={{
           title: "Loja do Sebastião", 
-          headerRight: () => (<Text>logout</Text>)
+          headerRight: () => (
+            <TouchableOpacity>
+              <Icon name="exit-to-app" size={28} style={{paddingRight: 15}}/>
+            </TouchableOpacity>
+          )
         }}/>
         <Screen name="info" component={ ProductInfo } options={{
           title: "Informações do Produto"
