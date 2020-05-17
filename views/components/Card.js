@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
 
-export default function Card({ product, navigation }) {
+export default function Card({ product, navigation, onPress }) {
 
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('edit')}>
+        <TouchableOpacity style={styles.card} onPress={onPress}>
             <Image style={styles.image} source={{ uri: product.photoURL }}/>
             <View style={styles.info}>
                 <Text style={styles.title}>{product.name}</Text>

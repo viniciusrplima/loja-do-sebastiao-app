@@ -27,6 +27,9 @@ export default function CardList({ navigation, category }) {
                         key={index}
                         product={product}
                         navigation={navigation}
+                        onPress={() => {
+                            navigation.navigate('info', { product })
+                        }}
                     />
                 ))}
             </ScrollView>
