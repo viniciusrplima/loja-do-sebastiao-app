@@ -1,23 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CardList from './components/CardList';
+import database from '../services/database';
 
 export default function Videogames({ navigation }) {
     
-    const product = {
-        name: "Videogame", 
-        price: 1200, 
-        quantity: 5
-    }
+    const [products, setProducts] = useState([]);
 
-    const products = [
-        product, 
-        product, 
-        product, 
-        product, 
-        product, 
-        product, 
-        product
-    ]
+    useEffect(() => {
+        database.getProducts('videogame')
+        .then(({ data }) => {
+            setProducts(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
 
     return (
         <CardList products={products} navigation={navigation} />

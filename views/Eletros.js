@@ -1,23 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CardList from './components/CardList';
+import database from '../services/database';
 
 export default function Eletros({ navigation }) {
     
-    const product = {
-        name: "Eletrodoméstico", 
-        price: 800, 
-        quantity: 80
-    }
+    const [products, setProducts] = useState([]);
 
-    const products = [
-        product, 
-        product, 
-        product, 
-        product, 
-        product, 
-        product, 
-        product
-    ]
+    useEffect(() => {
+        database.getProducts('eletrodomestico')
+        .then(({ data }) => {
+            setProducts(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
 
     return (
         <CardList products={products} navigation={navigation} />

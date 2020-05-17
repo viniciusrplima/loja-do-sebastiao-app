@@ -6,8 +6,8 @@ import Card from './Card';
 export default function CardList({ navigation, products }) {
 
     return (
-        <SafeAreaView>
-            <ScrollView style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scroll}>
                 {products.map((product, index) => (
                     <Card
                         key={index}
@@ -25,7 +25,10 @@ export default function CardList({ navigation, products }) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20
+        flex: 1,
+    },
+    scroll: {
+        padding: 20, 
     },
     button: {
         position: 'absolute',
