@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Card from './Card';
 
 export default function CardList({ navigation, products }) {
@@ -7,14 +8,17 @@ export default function CardList({ navigation, products }) {
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
-                { products.map((product, index) => (
-                    <Card 
-                        key={index} 
-                        product={product} 
+                {products.map((product, index) => (
+                    <Card
+                        key={index}
+                        product={product}
                         navigation={navigation}
                     />
                 ))}
             </ScrollView>
+            <TouchableOpacity style={styles.button} onPress={() => { }}>
+                <Icon name='plus' size={26} color="#fff" />
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
@@ -22,5 +26,17 @@ export default function CardList({ navigation, products }) {
 const styles = StyleSheet.create({
     container: {
         padding: 20
+    },
+    button: {
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        backgroundColor: '#000',
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        height: 60,
+        borderRadius: 50,
     }
 })
