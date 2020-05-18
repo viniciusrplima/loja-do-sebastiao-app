@@ -10,6 +10,7 @@ import CardList from './CardList';
 
 
 export default class Home extends React.Component {
+  
   state = {
     index: 0,
     routes: [
