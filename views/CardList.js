@@ -8,6 +8,7 @@ export default function CardList({ navigation, category }) {
 
     const [products, setProducts] = useState([]);
 
+
     useEffect(() => {
         database.getProducts(category)
         .then(({ data }) => {
@@ -18,6 +19,7 @@ export default function CardList({ navigation, category }) {
             console.log(error);
         })
     }, []);
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -33,7 +35,7 @@ export default function CardList({ navigation, category }) {
                     />
                 ))}
             </ScrollView>
-            <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('new') }}>
+            <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('new', {category} ) }}>
                 <Icon name='plus' size={26} color="#fff" />
             </TouchableOpacity>
         </SafeAreaView>
