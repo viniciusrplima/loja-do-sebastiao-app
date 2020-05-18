@@ -1,22 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Card from './Card';
+import Card from './components/Card';
+import database from '../services/database';
 
-export default function CardList({ navigation, products }) {
+export default function CardList({ navigation, category }) {
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        database.getProducts(category)
+        .then(({ data }) => {
+            setProducts(data);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
 
     return (
-        <SafeAreaView>
-            <ScrollView style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scroll}>
                 {products.map((product, index) => (
                     <Card
                         key={index}
                         product={product}
                         navigation={navigation}
+                        onPress={() => {
+                            navigation.navigate('info', { product })
+                        }}
                     />
                 ))}
             </ScrollView>
-            <TouchableOpacity style={styles.button} onPress={() => { }}>
+            <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('new') }}>
                 <Icon name='plus' size={26} color="#fff" />
             </TouchableOpacity>
         </SafeAreaView>
@@ -25,7 +42,10 @@ export default function CardList({ navigation, products }) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20
+        flex: 1,
+    },
+    scroll: {
+        padding: 20, 
     },
     button: {
         position: 'absolute',
