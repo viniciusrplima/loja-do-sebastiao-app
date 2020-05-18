@@ -6,6 +6,18 @@ const token = 'ya29.a0AfH6SMCwizdv5MEokaqpW7ngP6JOTM9jtjWd61k98nl7h7G6CSdmfAVjdj
 export default {
 
     getProducts: (category) => {
-        return axios.get(`${apiUrl}${category}?token=${ token }`);
-    }, 
+        return axios.get(`${apiUrl}${category}?token=${token}`);
+    },
+    createProduct: (product) => {
+        return axios.post(`${apiUrl}?token=${token}`, product);
+    },
+    updateProduct: (product) => {
+        return axios.put(`${apiUrl}?token=${token}`, product);
+    },
+    deleteProduct: (id) => {
+        return axios.delete(`${apiUrl}${id}?token=${token}`);
+    },
+    updateImage: (id, file) => {
+        return axios.post(`${apiUrl}${id}?token=${token}`, file);
+    }
 }
