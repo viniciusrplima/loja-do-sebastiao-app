@@ -44,6 +44,7 @@ export default function NewProduct({ route, navigation }) {
             <Button icon="camera" mode="Text " onPress={() => console.log('Pressed')}  style={styles.foto}>
                 Enviar Foto
             </Button>
+	
             <Button mode="contained"  onPress={() => formRef.current.submitForm()}  style={styles.salvar}>
                 Salvar Produto
             </Button>

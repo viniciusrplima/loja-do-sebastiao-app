@@ -13,7 +13,6 @@ export default function CardList({ navigation, category }) {
         database.getProducts(category)
         .then(({ data }) => {
             setProducts(data);
-            console.log(data);
         })
         .catch((error) => {
             console.log(error);

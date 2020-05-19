@@ -24,7 +24,7 @@ export default class Home extends React.Component {
   _handleIndexChange = index => this.setState({ index });
 
   _renderScene = BottomNavigation.SceneMap({
-    tvs: () => (<CardList category='tv' navigation={this.props.navigation} route={this.props.route}/>),
+    tvs: () => (<CardList category={'tv'} navigation={this.props.navigation} route={this.props.route}/>),
     eletros: () => (<CardList category={'eletrodomestico'} navigation={this.props.navigation} route={this.props.route}/>),
     videogames: () => (<CardList category={'videogame'} navigation={this.props.navigation} route={this.props.route}/>),
     celulares: () => (<CardList category={'celular'} navigation={this.props.navigation} route={this.props.route}/>),
