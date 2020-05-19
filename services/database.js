@@ -2,7 +2,7 @@ import axios from 'axios';
 import GoogleSignin from './GoogleSignin';
 
 const apiUrl = 'https://api-loja-do-sebastiao.herokuapp.com/';
-let token = '';
+let token = 'ya29.a0AfH6SMAfEqfom6584as5OaY8ChXN0rbbqv036oyzLE-yVB48jr3Ccux2JQI8Vn0QaKDLPoMWes4eZzMxNDRruHSOlET0J037vkNJIKcHfEkZM_3aKeOH4bIQdh8XfhqEPNzjc3SShSLIZLoycuSuvmTStLnH1eUYYsI';
 
 export default {
 
@@ -25,6 +25,7 @@ export default {
         const resultToken = await GoogleSignin.signInWithGoogleAsync();
 
         token = resultToken;
+        console.log(token);
         const { data } = await axios.post(`${apiUrl}auth`, { token });
         return data.accessPermission;
     },
