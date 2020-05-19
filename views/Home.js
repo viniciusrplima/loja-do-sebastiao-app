@@ -1,5 +1,8 @@
 import React from 'react';
-import { BottomNavigation} from 'react-native-paper';
+import { TouchableOpacity } from 'react-native';
+import { BottomNavigation } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import database from '../services/database';
 
 import CardList from './CardList';
 
@@ -36,6 +39,20 @@ export default class Home extends React.Component {
   }
 
   render() {
+
+    const { navigation } = this.props;
+
+    navigation.setOptions({
+      headerRight: (props) => (
+        <TouchableOpacity onPress={async () => {
+          await database.logOut();
+          navigation.navigate('sigin');
+        }}>
+          <Icon name="exit-to-app" size={28} style={{paddingRight: 15}}/>
+        </TouchableOpacity>
+      )
+    });
+
     return (
       <BottomNavigation
         navigationState={this.state}
