@@ -2,7 +2,7 @@ import axios from 'axios';
 import GoogleSignin from './GoogleSignin';
 
 const apiUrl = 'https://api-loja-do-sebastiao.herokuapp.com/';
-let token = 'ya29.a0AfH6SMAfEqfom6584as5OaY8ChXN0rbbqv036oyzLE-yVB48jr3Ccux2JQI8Vn0QaKDLPoMWes4eZzMxNDRruHSOlET0J037vkNJIKcHfEkZM_3aKeOH4bIQdh8XfhqEPNzjc3SShSLIZLoycuSuvmTStLnH1eUYYsI';
+let token = 'ya29.a0AfH6SMDo6uJcI_IVCwf-HW0ro6FOji4PxNkpaFOmlwnDGK1teZg9RW7YdaA9_SZQU9G3WBEXS9HjBQsClzEGRy6tBxCePCj7OMH1vA2AiTA2aFOj_mHLqYut8E26okRKDFHqXh10WWLwUMOHDtXOJqThPHAA_667Rt4';
 
 export default {
 
@@ -12,15 +12,15 @@ export default {
     createProduct: (product) => {
         return axios.post(`${apiUrl}?token=${token}`, product);
     },
-    updateProduct: (product) => {
-        return axios.put(`${apiUrl}?token=${token}`, product);
+    updateProduct: (id, product) => {
+        return axios.put(`${apiUrl}${id}?token=${token}`, product);
     },
     deleteProduct: (id) => {
         return axios.delete(`${apiUrl}${id}?token=${token}`);
     },
     updateImage: (id, file) => {
         return axios.post(`${apiUrl}${id}?token=${token}`, file);
-    }, 
+    },
     signIn: async () => {
         const resultToken = await GoogleSignin.signInWithGoogleAsync();
 
@@ -31,8 +31,8 @@ export default {
     },
     logOut: () => {
         axios.post(`${apiUrl}logout`, { token })
-        .then(() => console.log('logout'))
-        .catch(console.log)
+            .then(() => console.log('logout'))
+            .catch(console.log)
         token = '';
     }
 }
