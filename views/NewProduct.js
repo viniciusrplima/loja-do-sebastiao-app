@@ -16,15 +16,15 @@ export default function NewProduct({ route, navigation }) {
 
     function validateData(data) {
         const errors = [];
-        if (data.nome.length === 0) {
+        if (data.name.length === 0) {
             errors.push('Nome inválido')
         }
 
-        if (data.valor <= 0) {
+        if (data.price <= 0) {
             errors.push('Valor inválido')
         }
 
-        if (data.quantidade <= 0 || data.quantidade % 1 !== 0) {
+        if (data.quantity <= 0 || data.quantity % 1 !== 0) {
             errors.push('Quantidade inválida');
         }
 
@@ -40,15 +40,15 @@ export default function NewProduct({ route, navigation }) {
         } else {
             // Aqui há uma gambiarra, pois eu não conseguir fazer com que a categoria fosse pelo input
             // Será corrigida no próximo commit
-            data.categoria = route.params.category;
+            data.category = route.params.category;
             if (image) {
-                data.foto = image;
+                data.file = image;
             }
 
             console.log(data);
             database.createProduct(data)
-                .then(() => console.log('Produto criado'))
-                .catch((err) => console.log(err));
+                .then() //TODO Add navigation
+                .catch(() => Alert.alert('Não foi possível criar o produto', 'Tente novamente.'));
         }
 
     }
@@ -75,15 +75,15 @@ export default function NewProduct({ route, navigation }) {
         <ScrollView>
             <Form ref={formRef} onSubmit={handleSubmit}>
                 <Avatar.Icon size={40} icon="circle" style={styles.avatar} />
-                <Input name="categoria" type="text" label="Categoria" value={route.params.category} disabled={true} style={styles.textInput} />
+                <Input name="category" type="text" label="Categoria" value={route.params.category} disabled={true} style={styles.textInput} />
 
                 <Avatar.Icon size={40} icon="cart" style={styles.avatar} />
-                <Input name="nome" type="text" label='Nome do produto' style={styles.textInput} />
+                <Input name="name" type="text" label='Nome do produto' style={styles.textInput} />
 
 
                 <Avatar.Icon size={40} icon="cash" style={styles.avatar} />
                 <Input
-                    name="valor"
+                    name="price"
                     type="number"
                     label='Valor do produto'
                     style={styles.textInput}
@@ -93,7 +93,7 @@ export default function NewProduct({ route, navigation }) {
 
                 <Avatar.Icon size={40} icon="asterisk" style={styles.avatar} />
                 <Input
-                    name="quantidade"
+                    name="quantity"
                     type="number"
                     keyboardType='numeric'
                     label='Quantidade inicial'
@@ -107,7 +107,6 @@ export default function NewProduct({ route, navigation }) {
                 <Button mode="contained" onPress={() => formRef.current.submitForm()}>
                     Salvar Produto
                 </Button>
-
             </Form>
         </ScrollView>
     );
