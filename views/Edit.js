@@ -4,10 +4,17 @@ import { TextInput, Avatar, List, Button  } from 'react-native-paper';
 
 export default function Edit({ route, navigation }) {
 
+    const { product } = route.params;
+
     return (
         <ScrollView>
             <Avatar.Icon size={40} icon="circle"  style={styles.avatar}/>
-            <TextInput label='Id do produto' style={styles.textInput}></TextInput>
+            <TextInput 
+                label='Id do produto' 
+                style={styles.textInput} 
+                value={product._id} 
+                disabled={true}
+            />
 
             <Avatar.Icon size={40} icon="cart" style={styles.avatar}/>
             <TextInput label='Nome do produto' style={styles.textInput}></TextInput>

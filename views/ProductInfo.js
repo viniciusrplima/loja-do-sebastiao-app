@@ -11,13 +11,17 @@ export default function ProductInfo({ navigation, route }) {
 
     useEffect(() => {
         product.quantity = quantity;
-        database.updateProduct(product._id, product)
+        database.updateProduct(product._id, { quantity })
             .catch(err => console.log(err));
     }, [quantity]);
 
+    const handleEdit = () => {
+        navigation.navigate('edit', { product });
+    }
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
                 <MaterialIcon name="edit" color={'white'} size={26} />
             </TouchableOpacity>
             <Image style={styles.image} source={{ uri: product.photoURL }} />
