@@ -2,7 +2,7 @@ import axios from 'axios';
 import GoogleSignin from './GoogleSignin';
 
 const apiUrl = 'https://api-loja-do-sebastiao.herokuapp.com/';
-let token = 'ya29.a0AfH6SMDo6uJcI_IVCwf-HW0ro6FOji4PxNkpaFOmlwnDGK1teZg9RW7YdaA9_SZQU9G3WBEXS9HjBQsClzEGRy6tBxCePCj7OMH1vA2AiTA2aFOj_mHLqYut8E26okRKDFHqXh10WWLwUMOHDtXOJqThPHAA_667Rt4';
+let token = '';
 
 export default {
 
@@ -20,13 +20,17 @@ export default {
     },
     updateImage: (id, file) => {
         const formData = new FormData();
-        formData.append('file', file);
 
+        const tokens = file.uri.split('/');
+        const fileName = tokens[tokens.length-1]; // O último nome na uri
+
+        formData.append('file', {
+            name: fileName,
+            type: 'image/jpeg',
+            uri: Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")
+        });
+        
         return axios.post(`${apiUrl}image/${id}?token=${token}`, formData);
-
-        /*return axios.post(`${apiUrl}image/${id}?token=${token}`, formData, {
-            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
-        });*/
     },
     signIn: async () => {
         const resultToken = await GoogleSignin.signInWithGoogleAsync();

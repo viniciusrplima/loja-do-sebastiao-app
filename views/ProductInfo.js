@@ -9,6 +9,8 @@ export default function ProductInfo({ navigation, route }) {
     const { product } = route.params;
     const [quantity, setQuantity] = useState(product.quantity);
 
+    console.log(product._id);
+
     useEffect(() => {
         product.quantity = quantity;
         database.updateProduct(product._id, { quantity })

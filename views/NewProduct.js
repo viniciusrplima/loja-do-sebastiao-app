@@ -21,7 +21,6 @@ export default function NewProduct({ route, navigation }) {
         // Aqui há uma gambiarra, pois eu não conseguir fazer com que a categoria fosse pelo input
         // Será corrigida no próximo commit
         data.categoria = route.params.category;
-        data.foto = image;
 
         // dados que vão para api
         console.log(data);
@@ -33,12 +32,10 @@ export default function NewProduct({ route, navigation }) {
             price: data.valor
         }
 
-        console.log(product);
-
         database.createProduct(product)
         .then(result => {
-            console.log(result);
-            database.updateImage(result.data._id, data.foto)
+            database.updateImage(result.data._id, image)
+            .then(console.log)
             .catch(console.log);
         })
         .catch(error => {
