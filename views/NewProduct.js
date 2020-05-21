@@ -4,6 +4,7 @@ import { Avatar, Button } from 'react-native-paper';
 import { Form } from '@unform/mobile';
 import Input from './components/Input';
 import * as ImagePicker from 'expo-image-picker';
+import database from '../services/database';
 
 import database from '../services/database';
 
@@ -50,6 +51,7 @@ export default function NewProduct({ route, navigation }) {
                 .then() //TODO Add navigation
                 .catch(() => Alert.alert('Não foi possível criar o produto', 'Tente novamente.'));
         }
+
 
     }
 

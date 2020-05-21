@@ -8,10 +8,13 @@ export default function CardList({ navigation, category }) {
 
     const [products, setProducts] = useState([]);
 
-
     useEffect(() => {
         database.getProducts(category)
         .then(({ data }) => {
+            data.sort((a, b) => {
+                if(a.quantity < b.quantity) return 1;
+                else return -1;
+            })
             setProducts(data);
         })
         .catch((error) => {
