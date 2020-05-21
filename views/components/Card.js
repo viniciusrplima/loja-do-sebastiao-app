@@ -7,17 +7,17 @@ export default function Card({ product, navigation, onPress }) {
 
   function selectCardColor(quantity) {
     if (quantity === 0) {
-      return 'red';
+      return '#cf180c';
     }
     if (quantity < 10) {
       return '#ffee58';
     }
 
-    return 'white';
+    return '#fff';
   }
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity style={{ ...styles.card, backgroundColor: cardColor }} onPress={onPress}>
       <Image style={styles.image} source={{ uri: product.photoURL }} />
       <View style={styles.info}>
         <Text style={styles.title}>{product.name}</Text>
@@ -30,7 +30,6 @@ export default function Card({ product, navigation, onPress }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
     height: 100,
     marginBottom: 20,
     shadowColor: '#333',
