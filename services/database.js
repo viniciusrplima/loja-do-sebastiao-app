@@ -19,7 +19,14 @@ export default {
         return axios.delete(`${apiUrl}${id}?token=${token}`);
     },
     updateImage: (id, file) => {
-        return axios.post(`${apiUrl}${id}?token=${token}`, file);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return axios.post(`${apiUrl}image/${id}?token=${token}`, formData);
+
+        /*return axios.post(`${apiUrl}image/${id}?token=${token}`, formData, {
+            'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+        });*/
     },
     signIn: async () => {
         const resultToken = await GoogleSignin.signInWithGoogleAsync();

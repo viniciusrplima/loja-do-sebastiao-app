@@ -4,6 +4,7 @@ import { Avatar, Button } from 'react-native-paper';
 import { Form } from '@unform/mobile';
 import Input from './components/Input';
 import * as ImagePicker from 'expo-image-picker';
+import database from '../services/database';
 
 
 export default function NewProduct({ route, navigation }) {
@@ -24,6 +25,26 @@ export default function NewProduct({ route, navigation }) {
 
         // dados que vão para api
         console.log(data);
+
+        const product = {
+            name: data.nome, 
+            category: data.categoria, 
+            quantity: data.quantidade, 
+            price: data.valor
+        }
+
+        console.log(product);
+
+        database.createProduct(product)
+        .then(result => {
+            console.log(result);
+            database.updateImage(result.data._id, data.foto)
+            .catch(console.log);
+        })
+        .catch(error => {
+            console.log("Erro ao salvar produto: ");
+            console.log(error);
+        });
     }
 
     async function pickImage() {
