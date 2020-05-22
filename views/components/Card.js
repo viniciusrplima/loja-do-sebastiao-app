@@ -31,7 +31,7 @@ export default function Card({ product, navigation, onPress }) {
 const styles = StyleSheet.create({
   card: {
     height: 100,
-    marginBottom: 20,
+    marginBottom: 25,
     shadowColor: '#333',
     elevation: 3,
     borderRadius: 5,

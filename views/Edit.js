@@ -1,67 +1,151 @@
-import React from 'react';
-import { ScrollView, StyleSheet} from 'react-native';
-import { TextInput, Avatar, List, Button  } from 'react-native-paper';
+import React, { useRef, useState } from 'react';
+import { View, StyleSheet, Alert } from 'react-native';
+import { Avatar, Button } from 'react-native-paper';
+import { Form } from '@unform/mobile';
+import Input from './components/Input';
+import * as ImagePicker from 'expo-image-picker';
+import database from '../services/database';
+
 
 export default function Edit({ route, navigation }) {
+    const formRef = useRef(null);
 
-    const { product } = route.params;
+    const [image, setImage] = useState([]);
+
+    const product = {
+        id: route.params.product._id,
+        categoria: route.params.product.category,
+        nome: route.params.product.name,
+        valor: route.params.product.price.toString(),
+        quantidade: route.params.product.quantity.toString()
+    }
+
+    let color;
+
+
+    function validateData(data) {
+        const errors = [];
+        if (data.name.length === 0) {
+            errors.push('Nome inválido')
+        }
+
+        if (data.price <= 0) {
+            errors.push('Valor inválido')
+        }
+
+        if (data.quantity <= 0 || data.quantity % 1 !== 0) {
+            errors.push('Quantidade inválida');
+        }
+
+        return errors;
+    }
+
+    function handleSubmit(data) {
+
+        // const errors = validateData(data);
+
+        // if (errors.length !== 0) {
+        //     Alert.alert('Não foi possível cadastrar o produto', errors[0]);
+        // } else {
+        //     // Aqui há uma gambiarra, pois eu não conseguir fazer com que a categoria fosse pelo input
+        //     // Será corrigida no próximo commit
+        //     data.category = route.params.category;
+        //     if (image) {
+        //         data.file = image;
+        //     }
+
+        //     console.log(data);
+        //     database.createProduct(data)
+        //     .then(result => {
+        //         database.updateImage(result.data._id, image)
+        //         .then(console.log)
+        //         .catch(console.log);
+        //     })
+        //     .catch(error => {
+        //         console.log("Erro ao salvar produto: ");
+        //         console.log(error);
+        //     });
+        // }
+    }
+
+    async function pickImage() {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                setImage(result.uri)
+            }
+
+            setImage(result);
+        } catch (E) {
+            console.log(E);
+        }
+    }
+
+    if (route.params.product.category === 'tv') {
+        color = '#bf360c';
+    } else if (route.params.product.category === 'eletrodomestico') {
+
+        color = '#4e342e';
+    } else if (route.params.product.category === 'videogame') {
+
+        color = '#2e7d32';
+    } else {
+        color = '#01579b';
+    }
 
     return (
-        <ScrollView>
-            <Avatar.Icon size={40} icon="circle"  style={styles.avatar}/>
-            <TextInput 
-                label='Id do produto' 
-                style={styles.textInput} 
-                value={product._id} 
-                disabled={true}
-            />
+        <View>
+            <Form ref={formRef} onSubmit={handleSubmit}>
 
-            <Avatar.Icon size={40} icon="cart" style={styles.avatar}/>
-            <TextInput label='Nome do produto' style={styles.textInput}></TextInput>
+                <Avatar.Icon size={40} icon="adjust" color={color} style={styles.avatar} />
+                <Input name="categoria" type="text" label="Id do produto" underlineColor={color} value={product.id} disabled={true} style={styles.textInput} />
 
-            <Avatar.Icon size={40} icon="cash" style={styles.avatar}/>
-            <TextInput label='Valor do produto' style={styles.textInput}></TextInput>
+                <Avatar.Icon size={40} icon="circle" color={color} style={styles.avatar} />
+                <Input name="categoria" type="text" label="Categoria" underlineColor={color} value={product.categoria} disabled={true} style={styles.textInput} />
 
-            <Avatar.Icon size={40} icon="asterisk" style={styles.avatar}/>
-            <TextInput label='Quantidade inicial' style={styles.textInput}></TextInput>
+                <Avatar.Icon size={40} icon="cart" color={color} style={styles.avatar} /> 
+                <Input name="nome" type="text" label='Nome do produto' underlineColor={color}  value={product.nome} style={styles.textInput} />
 
-            <Avatar.Icon size={40} icon="equal-box" style={styles.avatar}/>
 
-            <List.Section style={styles.textInput}>
-                <List.Accordion title="Selecione a Categoria">
-                    <List.Item title="Televisões" />
-                    <List.Item title="Eletrodomésticos" />
-                    <List.Item title="Videogames" />
-                    <List.Item title="Celulares" />
-                </List.Accordion>
-            </List.Section>
+                <Avatar.Icon size={40} icon="cash" color={color} style={styles.avatar} />
+                <Input name="valor" type="number" label='Valor do produto'underlineColor={color} value={product.valor}  style={styles.textInput} />
 
-            <Button icon="camera" mode="Text " onPress={() => console.log('Pressed')}  style={styles.foto}>
-                Enviar Nova Foto
-            </Button>
-            <Button mode="contained" onPress={() => console.log('Pressed')}  style={styles.salvar}>
-                Editar Produto
-            </Button>
-        </ScrollView>
-    )
+
+                <Avatar.Icon size={40} icon="asterisk" color={color} style={styles.avatar} />
+                <Input name="quantidade" type="number" label='Quantidade inicial' underlineColor={color} value={product.quantidade}  style={styles.textInput} />
+
+                <Button icon="camera" mode="Text " color={color} onPress={pickImage} style={styles.foto}>
+                    Enviar Nova Foto
+              </Button>
+                <Button mode="contained" color={color} onPress={() => formRef.current.submitForm()} style={styles.foto}>
+                    Salvar Produto
+              </Button>
+
+            </Form>
+        </View>
+    );
 }
 
 
 const styles = StyleSheet.create({
     textInput: {
         width: 260,
-        left:70,
-        top:-35,
+        left: 70,
+        top: -30,
+        marginBottom:-10
     },
-    avatar:{
-        top:20,
-        left:20
+    avatar: {
+        top: 20,
+        left: 20,
+        backgroundColor:'#fff'
     },
     foto: {
-     top:-30
-    },
-    salvar: {
-        top:-20
+        bottom: -10
     }
-   
- })
+
+})
