@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Card from './components/Card';
@@ -8,7 +8,18 @@ export default function CardList({ navigation, category }) {
 
     const [products, setProducts] = useState([]);
 
+    // Força a atualização da página sempre que aparecer na tela
     useEffect(() => {
+        navigation.addListener(
+            'focus',
+            payload => {
+                console.log("render");
+                loadProducts();
+            }
+        );
+    }, []);
+
+    const loadProducts = () => {
         database.getProducts(category)
         .then(({ data }) => {
             data.sort((a, b) => {
@@ -20,7 +31,7 @@ export default function CardList({ navigation, category }) {
         .catch((error) => {
             console.log(error);
         })
-    }, []);
+    }
 
 
     return (

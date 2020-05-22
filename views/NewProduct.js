@@ -46,20 +46,16 @@ export default function NewProduct({ route, navigation }) {
 
             console.log(data);
             database.createProduct(data)
-                .then() //TODO Add navigation
-                .catch(() => Alert.alert('Não foi possível criar o produto', 'Tente novamente.'));
+            .then(result => {
+                database.updateImage(result.data._id, image)
+                .then(console.log)
+                .catch(console.log);
+            })
+            .catch(error => {
+                console.log("Erro ao salvar produto: ");
+                console.log(error);
+            });
         }
-
-        database.createProduct(product)
-        .then(result => {
-            database.updateImage(result.data._id, image)
-            .then(console.log)
-            .catch(console.log);
-        })
-        .catch(error => {
-            console.log("Erro ao salvar produto: ");
-            console.log(error);
-        });
     }
 
     async function pickImage() {
