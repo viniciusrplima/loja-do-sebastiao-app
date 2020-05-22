@@ -6,8 +6,6 @@ import Input from './components/Input';
 import * as ImagePicker from 'expo-image-picker';
 import database from '../services/database';
 
-import database from '../services/database';
-
 export default function NewProduct({ route, navigation }) {
 
     const formRef = useRef(null);
