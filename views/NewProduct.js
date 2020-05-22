@@ -11,6 +11,7 @@ export default function NewProduct({ route, navigation }) {
     const formRef = useRef(null);
 
     const [image, setImage] = useState([]);
+    let color;
 
 
     function validateData(data) {
@@ -76,42 +77,45 @@ export default function NewProduct({ route, navigation }) {
         }
     }
 
+    if (route.params.category === 'tv') {
+        console.log(route);
+        color = '#bf360c';
+    } else if (route.params.category === 'eletrodomestico') {
+        console.log(route);
+
+        color = '#4e342e';
+    } else if (route.params.category === 'videogame') {
+        console.log(route);
+
+        color = '#2e7d32';
+    } else {
+        color = '#01579b';
+    }
+
     return (
         <ScrollView>
             <Form ref={formRef} onSubmit={handleSubmit}>
-                <Avatar.Icon size={40} icon="circle" style={styles.avatar} />
-                <Input name="category" type="text" label="Categoria" value={route.params.category} disabled={true} style={styles.textInput} />
+                <Avatar.Icon size={40} icon="circle" color={color} style={styles.avatar} />
+                <Input name="categoria" type="text" label="Categoria" underlineColor={color} value={route.params.category} disabled={true} style={styles.textInput} />
 
-                <Avatar.Icon size={40} icon="cart" style={styles.avatar} />
-                <Input name="name" type="text" label='Nome do produto' style={styles.textInput} />
-
-
-                <Avatar.Icon size={40} icon="cash" style={styles.avatar} />
-                <Input
-                    name="price"
-                    type="number"
-                    label='Valor do produto'
-                    style={styles.textInput}
-                    keyboardType='numeric'
-                />
+                <Avatar.Icon size={40} icon="cart" color={color} style={styles.avatar} /> 
+                <Input name="nome" type="text" label='Nome do produto' underlineColor={color} style={styles.textInput} />
 
 
-                <Avatar.Icon size={40} icon="asterisk" style={styles.avatar} />
-                <Input
-                    name="quantity"
-                    type="number"
-                    keyboardType='numeric'
-                    label='Quantidade inicial'
-                    style={styles.textInput}
-                />
+                <Avatar.Icon size={40} icon="cash" color={color} style={styles.avatar} />
+                <Input name="valor" type="number" label='Valor do produto'underlineColor={color} style={styles.textInput} />
 
-                <Button icon="camera" mode="Text " onPress={pickImage} style={styles.foto}>
+
+                <Avatar.Icon size={40} icon="asterisk" color={color} style={styles.avatar} />
+                <Input name="quantidade" type="number" label='Quantidade inicial' underlineColor={color} style={styles.textInput} />
+
+                <Button icon="camera" mode="Text " color={color} onPress={pickImage} style={styles.foto}>
                     Enviar Foto
-                </Button>
-
-                <Button mode="contained" onPress={() => formRef.current.submitForm()}>
+              </Button>
+                <Button mode="contained" color={color} onPress={() => formRef.current.submitForm()}>
                     Salvar Produto
-                </Button>
+              </Button>
+
             </Form>
         </ScrollView>
     );
@@ -122,11 +126,12 @@ const styles = StyleSheet.create({
     textInput: {
         width: 260,
         left: 70,
-        top: -35,
+        top: -30,
     },
     avatar: {
         top: 20,
-        left: 20
+        left: 20,
+        backgroundColor:'#fff'
     },
     foto: {
         top: -20
