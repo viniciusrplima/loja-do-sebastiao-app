@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Image, View, Text, TouchableOpacity, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { Modal, Portal, Button, Provider } from 'react-native-paper';
+import { Button, ActivityIndicator } from 'react-native-paper';
 
 
 import database from '../services/database';
@@ -11,6 +11,7 @@ export default function ProductInfo({ navigation, route }) {
     const { product } = route.params;
     const [quantity, setQuantity] = useState(product.quantity);
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -22,9 +23,12 @@ export default function ProductInfo({ navigation, route }) {
     const handleEdit = () => {
         navigation.navigate('edit', { product });
     }
-    const deleteProduct = () => {
-        database.deleteProduct(product._id)
+    async function deleteProduct() {
+        setLoading(true)
+        await database.deleteProduct(product._id)
         .catch(err => console.log(err));
+        setLoading(false)
+        navigation.navigate('home');
     }
     const clickDelete = () => {
         setVisible(true);
@@ -35,37 +39,40 @@ export default function ProductInfo({ navigation, route }) {
 
     return (
         <View style={styles.container}>
-            <Provider>
-                <Portal>
-                    <TouchableOpacity style={styles.deleteButton} onPress={clickDelete}>
-                        <MaterialIcon name="delete" color={'white'} size={26} />
+
+            <Modal
+                visible={visible}
+                animationType={'fade'}
+                transparent={true}
+            > 
+                <View style={styles.modalContent}>
+                    <Text style={styles.modalText}>Tem certeza que deseja excluir?</Text>
+                    <Button mode="contained" color="#e53935" style={styles.modalButton} onPress={deleteProduct}>Quero excluir</Button>
+                    <Button mode="contained" color="#2e7d32" style={styles.modalButton} onPress={dimissDelete}>Não quero excluir</Button>
+                    <ActivityIndicator animating={loading} color="red" />
+                </View>
+            </Modal>
+
+            <TouchableOpacity style={styles.deleteButton} onPress={clickDelete}>
+                <MaterialIcon name="delete" color={'white'} size={26} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+                <MaterialIcon name="edit" color={'white'} size={26} />
+            </TouchableOpacity>
+            <Image style={styles.image} source={{ uri: product.photoURL }} />
+            <View style={styles.info}>
+                <Text style={styles.title}>{product.name}</Text>
+                <Text style={styles.price}>R$ {product.price}</Text>
+                <View style={styles.quantitySet}>
+                    <TouchableOpacity style={styles.button} onPress={() => setQuantity(quantity - 1)}>
+                        <Icon name="minus" size={26} color={'white'} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
-                        <MaterialIcon name="edit" color={'white'} size={26} />
+                    <Text style={styles.quantity}> {quantity} items</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => setQuantity(quantity + 1)}>
+                        <Icon name="plus" size={26} color={'white'} />
                     </TouchableOpacity>
-                    <Image style={styles.image} source={{ uri: product.photoURL }} />
-                    <View style={styles.info}>
-                        <Text style={styles.title}>{product.name}</Text>
-                        <Text style={styles.price}>R$ {product.price}</Text>
-                        <View style={styles.quantitySet}>
-                            <TouchableOpacity style={styles.button} onPress={() => setQuantity(quantity - 1)}>
-                                <Icon name="minus" size={26} color={'white'} />
-                            </TouchableOpacity>
-                            <Text style={styles.quantity}> {quantity} items</Text>
-                            <TouchableOpacity style={styles.button} onPress={() => setQuantity(quantity + 1)}>
-                                <Icon name="plus" size={26} color={'white'} />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Modal visible={visible} onDismiss={dimissDelete} >
-                        <View style={styles.modal}>
-                            <Text style={styles.modalText}>Tem certeza que deseja excluir?</Text>
-                            <Button mode="contained" color="#e53935" style={styles.modalButton} onPress={deleteProduct}>Quero excluir</Button>
-                            <Button mode="contained" color="#2e7d32" style={styles.modalButton} >Não quero excluir</Button>
-                        </View>
-                    </Modal>
-                </Portal>
-            </Provider>
+                </View>
+            </View>
         </View>
     )
 }
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 20,
+        padding: 10,
     },
     image: {
         flex: 1,
@@ -84,8 +91,6 @@ const styles = StyleSheet.create({
         width: 250,
         alignItems: 'center',
         top: 50,
-        left: 50
-
     },
     info: {
         top: 70,
@@ -159,24 +164,23 @@ const styles = StyleSheet.create({
         shadowColor: '#333',
 
     },
-    modal: {
-        zIndex: 3,
+    modalContent: {
         flex: 1,
-        height: 200,
-        width: 250,
+        height: 300,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
-        elevation: 5,
-        top: 20,
-        left: 50
+        top: 56,
+        backgroundColor: "#000",
+        opacity: 0.7,
+
     },
     modalText: {
-        elevation: 5,
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center",
+        elevation: 6,
         height: 45,
         marginBottom: 20,
         fontSize: 20,
-        textAlign: 'center',
-        color: 'white'
     }
 })
