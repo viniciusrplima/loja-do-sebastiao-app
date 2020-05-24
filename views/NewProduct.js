@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Alert } from 'react-native';
-import { Avatar, Button } from 'react-native-paper';
+import { Avatar, Button, ActivityIndicator } from 'react-native-paper';
 import { Form } from '@unform/mobile';
 import Input from './components/Input';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,6 +11,8 @@ export default function NewProduct({ route, navigation }) {
     const formRef = useRef(null);
 
     const [image, setImage] = useState([]);
+    const [loading, setLoading] = useState(false);
+
 
     let color;
 
@@ -48,9 +50,10 @@ export default function NewProduct({ route, navigation }) {
             if (image) {
                 data.file = image;
             }
-           await database.createProduct(data)
-            .then(result => {
-                database.updateImage(result.data._id, image)
+            setLoading(true)
+            await database.createProduct(data)
+            .then( async (result) => {
+                await database.updateImage(result.data._id, image)
                 .then(console.log)
                 .catch(console.log);
             })
@@ -115,10 +118,9 @@ export default function NewProduct({ route, navigation }) {
                 <Button icon="camera" mode="Text " color={color} onPress={pickImage} style={styles.foto}>
                     Enviar Foto
               </Button>
-                <Button mode="contained" color={color} onPress={() => formRef.current.submitForm()}>
+                <Button mode="contained" loading={loading} color={color} onPress={() => formRef.current.submitForm()}>
                     Salvar Produto
               </Button>
-
             </Form>
         </ScrollView>
     );
