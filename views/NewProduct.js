@@ -45,7 +45,6 @@ export default function NewProduct({ route, navigation }) {
                 data.file = image;
             }
 
-            console.log(data);
             database.createProduct(data)
             .then(result => {
                 database.updateImage(result.data._id, image)
