@@ -11,8 +11,8 @@ export default function NewProduct({ route, navigation }) {
     const formRef = useRef(null);
 
     const [image, setImage] = useState([]);
-    let color;
 
+    let color;
 
     function validateData(data) {
         const errors = [];
@@ -20,20 +20,24 @@ export default function NewProduct({ route, navigation }) {
             errors.push('Nome inválido')
         }
 
-        if (data.price <= 0) {
+        if (parseInt(data.price) <= 0) {
             errors.push('Valor inválido')
         }
 
-        if (data.quantity <= 0 || data.quantity % 1 !== 0) {
+        if (parseInt(data.quantity) <= 0 || parseInt(data.quantity) % 1 !== 0) {
             errors.push('Quantidade inválida');
         }
 
         return errors;
     }
 
-    function handleSubmit(data) {
+    async function handleSubmit(data) {
 
         const errors = validateData(data);
+        console.log(errors);
+        data.price = parseInt(data.price);
+        data.quantity = parseInt(data.quantity);
+
 
         if (errors.length !== 0) {
             Alert.alert('Não foi possível cadastrar o produto', errors[0]);
@@ -44,9 +48,7 @@ export default function NewProduct({ route, navigation }) {
             if (image) {
                 data.file = image;
             }
-
-            console.log(data);
-            database.createProduct(data)
+           await database.createProduct(data)
             .then(result => {
                 database.updateImage(result.data._id, image)
                 .then(console.log)
@@ -56,6 +58,7 @@ export default function NewProduct({ route, navigation }) {
                 console.log("Erro ao salvar produto: ");
                 console.log(error);
             });
+            navigation.navigate('home')
         }
     }
 
@@ -96,18 +99,18 @@ export default function NewProduct({ route, navigation }) {
         <ScrollView>
             <Form ref={formRef} onSubmit={handleSubmit}>
                 <Avatar.Icon size={40} icon="circle" color={color} style={styles.avatar} />
-                <Input name="categoria" type="text" label="Categoria" underlineColor={color} value={route.params.category} disabled={true} style={styles.textInput} />
+                <Input name="category" type="text" label="Categoria" underlineColor={color} value={route.params.category} disabled={true} style={styles.textInput} />
 
                 <Avatar.Icon size={40} icon="cart" color={color} style={styles.avatar} /> 
-                <Input name="nome" type="text" label='Nome do produto' underlineColor={color} style={styles.textInput} />
+                <Input name="name" type="text" label='Nome do produto' underlineColor={color} style={styles.textInput} />
 
 
                 <Avatar.Icon size={40} icon="cash" color={color} style={styles.avatar} />
-                <Input name="valor" type="number" label='Valor do produto'underlineColor={color} style={styles.textInput} />
+                <Input name="price" type="number" label='Valor do produto'underlineColor={color} style={styles.textInput} />
 
 
                 <Avatar.Icon size={40} icon="asterisk" color={color} style={styles.avatar} />
-                <Input name="quantidade" type="number" label='Quantidade inicial' underlineColor={color} style={styles.textInput} />
+                <Input name="quantity" type="number" label='Quantidade inicial' underlineColor={color} style={styles.textInput} />
 
                 <Button icon="camera" mode="Text " color={color} onPress={pickImage} style={styles.foto}>
                     Enviar Foto
