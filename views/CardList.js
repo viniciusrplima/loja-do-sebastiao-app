@@ -13,7 +13,6 @@ export default function CardList({ navigation, category }) {
         navigation.addListener(
             'focus',
             payload => {
-                console.log("render");
                 loadProducts();
             }
         );

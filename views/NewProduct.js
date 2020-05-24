@@ -50,6 +50,7 @@ export default function NewProduct({ route, navigation }) {
             if (image) {
                 data.file = image;
             }
+          
             setLoading(true)
             await database.createProduct(data)
             .then( async (result) => {
