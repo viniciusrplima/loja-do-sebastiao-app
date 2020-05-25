@@ -26,7 +26,14 @@
     }, 
     "android": {
       "package": "com.loja_do_sebastiao.sebastiao",
-      "versionCode": 1
+      "versionCode": 1, 
+      "config": {
+	"googleSignIn": {
+	  "apiKey": "AIzaSyCxwxZoLaEMb5sKjokI-fg4L8yXCgkhQyM", 
+	  "certificateHash": "D98822E673D1793E6FFA4CDF72918F7ABDC6D2CC"
+	}
+      }
     }
-  }
+  },
+  "androidStandaloneAppClientId": "780399092682-gdmih8dob0au9r8h4kpevfs7l9eabn1n.apps.googleusercontent.com"
 }
