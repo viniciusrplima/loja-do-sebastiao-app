@@ -9,13 +9,14 @@ import { ActivityIndicator } from 'react-native-paper';
 export default function CardList({ navigation, category, loadingColor }) {
 
     const [products, setProducts] = useState([]);
-    let index = useState(navigation.card);
     const [loading, setLoading] = useState(false);
 
     // Força a atualização da página sempre que aparecer na tela
     useEffect(() => {
-        loadProducts();
-    }, index);
+        navigation.addListener('focus', e => {
+	    loadProducts();
+	})
+    }, []);
 
     const loadProducts = async() => {
         setLoading(true);

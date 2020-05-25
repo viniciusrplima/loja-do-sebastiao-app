@@ -22,8 +22,8 @@ export default {
             return { error: true };
 	}
 
-	/*
-	try {
+	
+	/*try {
 	    await GoogleSignIn.initAsync({
       		clientId: '780399092682-lsjkeo6d5m5eeicumjj0el8vrvrunult.apps.googleusercontent.com'
     	    });
@@ -35,7 +35,6 @@ export default {
             else {
                 Alert.alert('Error', 'Erro to Sign In');
             }
-
     	}
 	catch(error) {
 	    Alert.alert('Error', 'Error to Async Sign In');
