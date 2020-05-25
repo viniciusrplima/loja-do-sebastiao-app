@@ -3,23 +3,23 @@ import { StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-na
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Card from './components/Card';
 import database from '../services/database';
+import { ActivityIndicator } from 'react-native-paper';
 
-export default function CardList({ navigation, category }) {
+
+export default function CardList({ navigation, category, loadingColor }) {
 
     const [products, setProducts] = useState([]);
+    let index = useState(navigation.card);
+    const [loading, setLoading] = useState(false);
 
     // Força a atualização da página sempre que aparecer na tela
     useEffect(() => {
-        navigation.addListener(
-            'focus',
-            payload => {
-                loadProducts();
-            }
-        );
-    }, []);
+        loadProducts();
+    }, index);
 
-    const loadProducts = () => {
-        database.getProducts(category)
+    const loadProducts = async() => {
+        setLoading(true);
+        await database.getProducts(category)
         .then(({ data }) => {
             data.sort((a, b) => {
                 if(a.quantity < b.quantity) return 1;
@@ -30,12 +30,15 @@ export default function CardList({ navigation, category }) {
         .catch((error) => {
             console.log(error);
         })
+        setLoading(false);
     }
 
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView style={styles.scroll}>
+            <ActivityIndicator animating={loading} size='large' color={loadingColor} />
+
                 {products.map((product, index) => (
                     <Card
                         key={index}

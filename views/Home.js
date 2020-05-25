@@ -17,20 +17,23 @@ export default class Home extends React.Component {
   state = {
     index: 0,
     routes: [
-      { key: 'tvs', title: 'Televisões', color: '#bf360c', icon: 'desktop-mac' },
-      { key: 'eletros', title: 'Eletrodomésticos', color: '#4e342e', icon: 'radio' },
-      { key: 'videogames', title: 'Videgames', color: '#2e7d32', icon: 'gamepad' },
-      { key: 'celulares', title: 'Celulares', color: '#01579b',  icon: 'cellphone' },
+      { key: 'tvs', title: 'Televisão', color: '#bf360c', icon: 'desktop-mac' },
+      { key: 'eletros', title: 'Eletrodoméstico', color: '#4e342e', icon: 'radio' },
+      { key: 'videogames', title: 'Videgame', color: '#2e7d32', icon: 'gamepad' },
+      { key: 'celulares', title: 'Celular', color: '#01579b',  icon: 'cellphone' },
     ],
   };
 
-  _handleIndexChange = index => this.setState({ index });
+  _handleIndexChange = index =>{
+    this.setState({ index })
+    this.props.navigation.card = index;
+  };
 
   _renderScene = BottomNavigation.SceneMap({
-    tvs: () => (<CardList category={'tv'} navigation={this.props.navigation} route={this.props.route}/>),
-    eletros: () => (<CardList category={'eletrodomestico'} navigation={this.props.navigation} route={this.props.route}/>),
-    videogames: () => (<CardList category={'videogame'} navigation={this.props.navigation} route={this.props.route}/>),
-    celulares: () => (<CardList category={'celular'} navigation={this.props.navigation} route={this.props.route}/>),
+    tvs: () => (<CardList category={'tv'} navigation={this.props.navigation} route={this.props.route} loadingColor={'#bf360c'}/>),
+    eletros: () => (<CardList category={'eletrodomestico'} navigation={this.props.navigation} route={this.props.route} loadingColor={'#4e342e'}/>),
+    videogames: () => (<CardList category={'videogame'} navigation={this.props.navigation} route={this.props.route} loadingColor={'#2e7d32'}/>),
+    celulares: () => (<CardList category={'celular'} navigation={this.props.navigation} route={this.props.route} loadingColor={'#01579b'}/>),
   });
 
   componentDidCatch(error, errorInfo) {
