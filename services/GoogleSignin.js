@@ -1,5 +1,5 @@
 import * as Google from 'expo-google-app-auth';
-import * as GoogleSignIn from 'expo-google-sign-in';
+//import * as GoogleSignIn from 'expo-google-sign-in';
 import { Alert } from 'react-native';
 
 export default {
@@ -8,9 +8,8 @@ export default {
 	// Para executar no expo use o código seguinte
 	// Para fazer o build use o código abaixo
         try {
-            const result = await Google.signInAsync({
+            const result = await Google.logInAsync({
                 androidClientId: '780399092682-h2puuv1nteb70pnq7en6jf78kdga8gfq.apps.googleusercontent.com',
-		androidStandaloneAppClientId: '780399092682-h2puuv1nteb70pnq7en6jf78kdga8gfq.apps.googleusercontent.com',
                 scopes: ['profile', 'email'],
             });
         
