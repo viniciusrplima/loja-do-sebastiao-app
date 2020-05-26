@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Alert } from 'react-native';
-import { Avatar, Button, ActivityIndicator } from 'react-native-paper';
+import { Avatar, Button} from 'react-native-paper';
 import { Form } from '@unform/mobile';
 import Input from './components/Input';
 import * as ImagePicker from 'expo-image-picker';
