@@ -53,12 +53,14 @@ export default function ProductInfo({ navigation, route }) {
                 </View>
             </Modal>
 
-            <TouchableOpacity style={styles.deleteButton} onPress={clickDelete}>
-                <MaterialIcon name="delete" color={'white'} size={26} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
-                <MaterialIcon name="edit" color={'white'} size={26} />
-            </TouchableOpacity>
+	    <View style={styles.buttonSet}>
+                <TouchableOpacity style={styles.deleteButton} onPress={clickDelete}>
+                    <MaterialIcon name="delete" color={'white'} size={26} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+                    <MaterialIcon name="edit" color={'white'} size={26} />
+                </TouchableOpacity>
+	    </View>
             <Image style={styles.image} source={{ uri: product.photoURL }} />
             <View style={styles.info}>
                 <Text style={styles.title}>{product.name}</Text>
@@ -90,13 +92,10 @@ const styles = StyleSheet.create({
         height: 200,
         width: 250,
         alignItems: 'center',
-        top: 50,
     },
     info: {
-        top: 70,
         flex: 1,
         alignItems: 'center',
-
     },
     title: {
         fontSize: 28,
@@ -136,33 +135,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowColor: '#333',
     },
+    buttonSet: {
+        flexDirection: 'row',
+	width: 250, 
+	justifyContent: 'flex-end', 
+	marginBottom: -5,
+	zIndex: 1
+    },
     deleteButton: {
         backgroundColor: 'red',
         borderRadius: 25,
-        alignSelf: 'flex-end',
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
         height: 50,
-        top: 60,
         elevation: 1,
-        marginRight: 50,
-        marginBottom: -50,
         shadowColor: '#333',
     },
     editButton: {
         backgroundColor: '#66e',
         borderRadius: 25,
-        alignSelf: 'flex-end',
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
         height: 50,
-        top: 60,
         elevation: 1,
-        marginRight: 100,
         shadowColor: '#333',
-
     },
     modalContent: {
         flex: 1,

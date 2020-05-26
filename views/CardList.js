@@ -37,8 +37,8 @@ export default function CardList({ navigation, category, loadingColor }) {
 
     return (
         <SafeAreaView style={styles.container}>
+	    {loading ? <ActivityIndicator animating={true} size='large' color={loadingColor} /> : <></>}
             <ScrollView style={styles.scroll}>
-            <ActivityIndicator animating={loading} size='large' color={loadingColor} />
 
                 {products.map((product, index) => (
                     <Card
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scroll: {
-        padding: 20, 
+        padding: 20,
     },
     button: {
         position: 'absolute',
