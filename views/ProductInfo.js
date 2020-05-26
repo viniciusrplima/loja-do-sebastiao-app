@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         top: 56,
         backgroundColor: "#000",
-        opacity: 0.7,
+        opacity: 0.8,
 
     },
     modalText: {

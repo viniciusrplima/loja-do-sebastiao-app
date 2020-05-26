@@ -10,8 +10,14 @@ export default function CardList({ navigation, category, loadingColor }) {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    let index = useState(navigation.card);
 
     // Força a atualização da página sempre que aparecer na tela
+
+    useEffect(() => {
+        loadProducts();
+    }, index);
+
     useEffect(() => {
         navigation.addListener('focus', e => {
 	    loadProducts();
